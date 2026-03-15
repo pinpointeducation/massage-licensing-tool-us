@@ -1,1 +1,639 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US Massage Therapy Licensing Requirements by State</title>
+    
+    <!--
+    ============================================================================
+    COPYRIGHT NOTICE - ALL RIGHTS RESERVED
+    ============================================================================
+    
+    © 2026 Tania Velásquez | Pinpoint Education
+    
+    This work is protected by copyright law. All rights reserved.
+    
+    UNAUTHORIZED USE PROHIBITED:
+    - No copying, redistribution, or reproduction without written permission
+    - No derivative works without written permission
+    - No commercial use without written permission
+    
+    For licensing inquiries, contact: https://pinpointeducation.com
+    
+    ============================================================================
+    -->
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Open Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        
+        .ce-lookup-container {
+            font-family: 'Open Sans', sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 20px 10px 20px;
+            background: linear-gradient(135deg, #f8fbfd 0%, #ffffff 100%);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,98,159,0.08);
+        }
+        
+        .ce-header {
+            text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 3px solid #00629F;
+        }
+        
+        .ce-header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: #041F37;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.5px;
+        }
+        
+        .ce-header p {
+            font-size: 16px;
+            color: #464646;
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        .search-container {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto 32px auto;
+        }
+        
+        .search-box {
+            position: relative;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,98,159,0.12);
+            border: 2px solid #00629F;
+        }
+        
+        #stateSearch {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            border-radius: 8px;
+            font-family: 'Open Sans', sans-serif;
+            color: #041F37;
+        }
+        
+        .clear-btn {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #00629F;
+            cursor: pointer;
+            padding: 4px 8px;
+            line-height: 1;
+            display: none;
+        }
+        
+        .clear-btn.visible {
+            display: block;
+        }
+        
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 16px rgba(0,98,159,0.15);
+            margin-top: 8px;
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            border: 1px solid #00629F;
+            display: none;
+        }
+        
+        .dropdown.visible {
+            display: block;
+        }
+        
+        .dropdown-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f0f0;
+            color: #041F37;
+        }
+        
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+        
+        .dropdown-item:hover {
+            background: #f8fbfd;
+        }
+        
+        .no-results {
+            padding: 40px 20px;
+            text-align: center;
+            color: #999;
+            font-style: italic;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,98,159,0.08);
+            display: none;
+        }
+        
+        .table-container.visible {
+            display: block;
+        }
+        
+        .ce-table {
+            width: 100%;
+            min-width: 1200px;
+            border-collapse: collapse;
+            font-size: 14px;
+            table-layout: fixed;
+        }
+        
+        .ce-table thead tr {
+            background: linear-gradient(135deg, #00629F 0%, #041F37 100%);
+            color: white;
+        }
+        
+        .ce-table th {
+            padding: 16px 12px;
+            text-align: left;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            line-height: 1.4;
+        }
+        
+        .ce-table th:last-child {
+            border-right: none;
+        }
+        
+        .ce-table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .ce-table td {
+            padding: 20px 12px;
+            color: #464646;
+            vertical-align: top;
+            line-height: 1.6;
+        }
+        
+        .ce-table td:first-child {
+            font-weight: 700;
+            color: #00629F;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
+        }
+        
+        .state-title {
+            display: block;
+            font-size: 11px;
+            font-weight: 400;
+            color: #888;
+            margin-top: 4px;
+            font-family: 'Open Sans', sans-serif;
+        }
+        
+        .ce-table td:nth-child(5) {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .board-link {
+            color: #00629F;
+            text-decoration: underline;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .board-link:hover {
+            color: #FF9219;
+            text-decoration: underline;
+        }
+        
+        .no-board {
+            color: #999;
+            font-size: 13px;
+        }
+        
+        .ce-footer {
+            margin-top: 20px;
+            margin-bottom: 0;
+            padding: 16px;
+            background: white;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 13px;
+            color: #464646;
+            border-top: 3px solid #FFC83B;
+        }
+        
+        .ce-footer p {
+            margin: 0 0 6px 0;
+        }
+        
+        .ce-footer p:last-child {
+            margin: 6px 0 0 0;
+            color: #00629F;
+            font-size: 12px;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #00629F;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #041F37;
+        }
+        
+        @media (max-width: 768px) {
+            .ce-header h1 {
+                font-size: 24px;
+            }
+            
+            .ce-table {
+                font-size: 12px;
+            }
+            
+            .ce-table th,
+            .ce-table td {
+                padding: 10px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="ce-lookup-container">
+        <!-- Header -->
+        <div class="ce-header">
+            <h1>US Massage Therapy Licensing Requirements by State</h1>
+            <p>Updated for 2026 — Find entry-level licensing requirements for your state</p>
+        </div>
+        
+        <!-- Search Box -->
+        <div class="search-container">
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="stateSearch" 
+                    placeholder="Search for a US state or territory..."
+                    autocomplete="off"
+                >
+                <button class="clear-btn" id="clearBtn" aria-label="Clear search">×</button>
+            </div>
+            <div class="dropdown" id="dropdown"></div>
+        </div>
+        
+        <!-- Table (only shows when state selected) -->
+        <div class="table-container" id="tableContainer">
+            <table class="ce-table">
+                <thead>
+                    <tr>
+                        <th style="width: 140px;">State/Territory</th>
+                        <th style="width: 200px;">Licensing Requirements</th>
+                        <th style="width: 140px;">Approx. Completion Time<br><span style="font-size: 10px; font-weight: 400; text-transform: none;">@ 20 hrs/week</span></th>
+                        <th style="width: 220px;">Minimal Enrollment Requirements</th>
+                        <th style="width: 240px;">Special Notes + Renewal CE</th>
+                        <th style="width: 180px;">State Board</th>
+                        <th style="width: 180px;">Other Verification Info</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- No Results Message -->
+        <div class="no-results" id="noResults" style="display: none;">
+            Please search for a state or territory above to view licensing requirements.
+        </div>
+        
+        <!-- Footer -->
+        <div class="ce-footer">
+            <p><strong>Note:</strong> Requirements are subject to change. Always verify with your state board before enrolling in programs.</p>
+            <p>© 2026 Tania Velásquez | Pinpoint Education • Data compiled from official state licensing boards</p>
+        </div>
+    </div>
+    
+    <script>
+        // State abbreviations mapping
+        const stateAbbreviations = {
+            'AL': 'Alabama', 'AK': 'Alaska', 'AS': 'American Samoa', 'AZ': 'Arizona', 'AR': 'Arkansas',
+            'CA': 'California', 'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'DC': 'District of Columbia',
+            'FL': 'Florida', 'GA': 'Georgia', 'GU': 'Guam', 'HI': 'Hawaii', 'ID': 'Idaho',
+            'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa', 'KS': 'Kansas', 'KY': 'Kentucky',
+            'LA': 'Louisiana', 'ME': 'Maine', 'MD': 'Maryland', 'MA': 'Massachusetts', 'MI': 'Michigan',
+            'MN': 'Minnesota', 'MS': 'Mississippi', 'MO': 'Missouri', 'MT': 'Montana', 'NE': 'Nebraska',
+            'NV': 'Nevada', 'NH': 'New Hampshire', 'NJ': 'New Jersey', 'NM': 'New Mexico', 'NY': 'New York',
+            'NC': 'North Carolina', 'ND': 'North Dakota', 'MP': 'Northern Mariana Islands', 'OH': 'Ohio',
+            'OK': 'Oklahoma', 'OR': 'Oregon', 'PA': 'Pennsylvania', 'PR': 'Puerto Rico', 'RI': 'Rhode Island',
+            'SC': 'South Carolina', 'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'VI': 'U.S. Virgin Islands',
+            'UT': 'Utah', 'VT': 'Vermont', 'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia',
+            'WI': 'Wisconsin', 'WY': 'Wyoming'
+        };
+        
+        // State data with updated URLs
+        const stateData = [
+            { state: "Alabama", title: "Licensed Massage Therapist (LMT)", licensing: "650 hrs\n\nMBLEx or NCBTMB", completionTime: "32.5 weeks\n(~8.1 months)", enrollment: "School entry requirements vary by school; Additional requirements: background check, liability insurance, CPR, minimum age 18.", notesRenewal: "Renewal: 16 hrs / 2 yrs", boardName: "Alabama Massage Therapy Licensing Board", boardUrl: "https://amtlb.alabama.gov/", otherInfo: "Phone: (334) 420-7233" },
+            { state: "Alaska", title: "Licensed Massage Therapist (LMT)", licensing: "625 hrs\n\nMBLEx or NCBTMB", completionTime: "31.2 weeks\n(~7.8 months)", enrollment: "School entry requirements vary by school; Additional requirements: background check, CPR, minimum age 18.", notesRenewal: "Renewal: 16 hrs / 2 yrs", boardName: "Alaska Board of Massage Therapists", boardUrl: "https://www.commerce.alaska.gov/web/cbpl/ProfessionalLicensing/BoardofMassageTherapists", otherInfo: "Phone: (907) 465-2691" },
+            { state: "American Samoa", title: "", licensing: "Currently unregulated\n\nNo statewide exam requirement identified", completionTime: "Currently unregulated / no clear centralized credential found", enrollment: "Currently unregulated; no statewide school-entry requirement identified.", notesRenewal: "Manual verification with American Samoa government licensing or health authorities is still needed.\n\nRenewal: TBD", boardName: "No board found / Not clearly regulated", boardUrl: "", otherInfo: "" },
+            { state: "Arizona", title: "Licensed Massage Therapist (LMT)", licensing: "700 hrs\n\nNCBTMB or MBLEx (unless graduated from an Arizona USDE-accredited school)", completionTime: "35.0 weeks\n(~8.8 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "Arizona State Board of Massage Therapy", boardUrl: "https://massagetherapy.az.gov/", otherInfo: "https://www.azleg.gov/viewdocument/?docName=http://www.azleg.gov/ars/32/04222.htm\nPhone: (602) 542-8604" },
+            { state: "Arkansas", title: "Massage Therapist (MT); Master Massage Therapist (MMT)", licensing: "500 hrs\n\nMBLEx or NCBTMB + Arkansas law exam", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "School entry requirements vary by school; Additional requirements: background check, fingerprints, minimum age 18.", notesRenewal: "Renewal: 18 hrs / 2 yrs", boardName: "Arkansas Department of Health \u2013 Massage Therapy Section", boardUrl: "https://healthy.arkansas.gov/programs-services/licensing-military-member-licensure-permits-plan-reviews/massage-therapy/", otherInfo: "Phone: (501) 683-1448" },
+            { state: "California", title: "Certified Massage Therapist (CMT)", licensing: "500 hrs\n\nNo exam required (CAMTC-approved competency assessment exam voluntary)", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "School entry requirements vary by school. For CAMTC certification: age 18+, fingerprints/background check, fees, and approved training documentation.", notesRenewal: "No state licensure; CAMTC certification is voluntary at the state level but required by most cities/counties.\n\nRenewal: none required", boardName: "California Massage Therapy Council (state-authorized nonprofit)", boardUrl: "https://www.camtc.org/", otherInfo: "Phone: (916) 669-5336" },
+            { state: "Colorado", title: "Licensed Massage Therapist (LMT)", licensing: "650 hrs\n\nMBLEx or NCBTMB", completionTime: "32.5 weeks\n(~8.1 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "650 hrs (effective after 2024 increase; older 500-hr standard appears in older sources).\n\nRenewal: none required", boardName: "Colorado Division of Professions & Occupations", boardUrl: "https://dpo.colorado.gov/MassageTherapy", otherInfo: "Phone: (303) 894-7800" },
+            { state: "Connecticut", title: "Licensed Massage Therapist (LMT)", licensing: "810 hrs\n(incl. 60 clinical/internship hrs)\n\nMBLEx or NCBTMB", completionTime: "40.5 Weeks\n(~10 Months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 4 yrs", boardName: "Connecticut Department of Public Health", boardUrl: "https://portal.ct.gov/DPH/Practitioner-Licensing--Investigations/Massagetherapist", otherInfo: "Phone: (860) 509-7603" },
+            { state: "Delaware", title: "Licensed Massage Therapist (LMT); legacy Certified Massage Technician (CMT)", licensing: "625 hrs (LMT)\n\nMBLEx", completionTime: "31.2 weeks\n(~7.8 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "Delaware Board of Massage and Bodywork", boardUrl: "https://dpr.delaware.gov/boards/massagebodyworks/", otherInfo: "Phone: (302) 744-4500" },
+            { state: "District of Columbia", title: "Licensed Massage Therapist (LMT)", licensing: "500 hrs\n\nMBLEx, NCBTMB, or NCCA", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 14 hrs / 2 yrs", boardName: "DC Board of Massage Therapy", boardUrl: "https://dchealth.dc.gov/", otherInfo: "Phone: (877) 672-2174" },
+            { state: "Florida", title: "Licensed Massage Therapist (LMT)", licensing: "500 hrs\n(incl. 125 clinical practicum hrs)\n\nMBLEx", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "Florida Board of Massage Therapy", boardUrl: "https://floridasmassagetherapy.gov/", otherInfo: "Phone: (850) 245-4161" },
+            { state: "Georgia", title: "Licensed Massage Therapist (LMT)", licensing: "500 hrs\n\nMBLEx or NCBTMB", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "Georgia Board of Massage Therapy", boardUrl: "https://sos.ga.gov/georgia-board-massage-therapy", otherInfo: "Phone: (478) 207-2440" },
+            { state: "Guam", title: "Massage Practitioner; Massage Therapist", licensing: "250 hrs minimum for massage practitioner licensure\n(incl. 250 supervised training hrs)\n\nRegulated by Guam DPHSS; requires written and practical exams", completionTime: "25 Weeks\n(~6 Months)", enrollment: "Curriculum includes Anatomy, Physiology, and Massage Theory. Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Guam Board of Allied Health Examiners (GBAHE) renewal disclosures indicate biennial renewal\n\nRenewal: 30 hrs / 2 yrs", boardName: "Guam Board of Allied Health Examiners", boardUrl: "https://dphss.guam.gov/", otherInfo: "https://guamhplo.org/gbahe" },
+            { state: "Hawaii", title: "Licensed Massage Therapist (LMT); apprenticeship permit available", licensing: "570 hrs\n\nState written exam", completionTime: "28.5 weeks\n(~7.1 months)", enrollment: "School entry requirements vary by school; Additional requirements: CPR.", notesRenewal: "State exam referenced\n\nRenewal: 12 hrs / 2 yrs", boardName: "Hawaii Board of Massage Therapy", boardUrl: "https://cca.hawaii.gov/pvl/boards/massage/", otherInfo: "Phone: (808) 586-2692" },
+            { state: "Idaho", title: "Licensed Massage Therapist (LMT)", licensing: "500 hrs\n\nMBLEx or NCBTMB", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 6 hrs / 1 yr", boardName: "Idaho Board of Massage Therapy", boardUrl: "https://dopl.idaho.gov/mas/", otherInfo: "Phone: (208) 334-3233" },
+            { state: "Illinois", title: "Licensed Massage Therapist (LMT)", licensing: "600 hrs\n\nMBLEx or NCBTMB", completionTime: "30.0 weeks\n(~7.5 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 25 hrs / 2 yrs", boardName: "Illinois Department of Financial & Professional Regulation", boardUrl: "https://idfpr.illinois.gov/profs/massagetherapy.html", otherInfo: "Phone: (217) 785-0800" },
+            { state: "Indiana", title: "Massage Therapist (MT)", licensing: "625 hrs\n\nMBLEx or NCBTMB", completionTime: "31.2 weeks\n(~7.8 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 4 yrs", boardName: "Indiana Professional Licensing Agency", boardUrl: "https://www.in.gov/pla/professions/massage-therapy-home/", otherInfo: "Phone: (317) 234-8800" },
+            { state: "Iowa", title: "Massage Therapist (MT)", licensing: "600 hrs\n\nMBLEx or NCBTMB", completionTime: "30.0 weeks\n(~7.5 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 16 hrs / 2 yrs", boardName: "Iowa Board of Massage Therapy", boardUrl: "https://dial.iowa.gov/licenses/health-professions/massage-therapy", otherInfo: "Phone: (515) 281-7689" },
+            { state: "Kansas", title: "", licensing: "Regulated at local level (not statewide); local municipal licensing typically requires 500 hours of education from an approved program where enforced\n\n\nNo statewide exam requirement identified; MBLEx where enforced", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Currently unregulated; no statewide school-entry requirement identified.", notesRenewal: "Currently unregulated by state.\nGoverned by local city/county ordinances and proof of CPR/First Aid cert. may be requred by municipality.\n\nRenewal: none required", boardName: "Not regulated at state level", boardUrl: "", otherInfo: "" },
+            { state: "Kentucky", title: "Licensed Massage Therapist (LMT)", licensing: "600 hrs\n\nNCBTMB or MBLEx", completionTime: "30.0 weeks\n(~7.5 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 12 hrs / 2 yrs", boardName: "Kentucky Board of Licensure for Massage Therapy", boardUrl: "https://bmt.ky.gov/", otherInfo: "Phone: (502) 782-8808" },
+            { state: "Louisiana", title: "Licensed Massage Therapist (LMT)", licensing: "625 hrs\n\nMBLEx", completionTime: "31.2 weeks\n(~7.8 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 12 hrs / 1 yr", boardName: "Louisiana Board of Massage Therapy", boardUrl: "https://www.labmt.org/", otherInfo: "Phone: (225) 756-3488" },
+            { state: "Maine", title: "Licensed Massage Therapist (LMT)", licensing: "500 hrs\n(incl. 100 practical training hrs)\n\nMBLEx", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "", boardName: "Maine Office of Professional & Occupational Regulation", boardUrl: "https://www.maine.gov/pfr/professionallicensing/professions/massage-therapy-licensure", otherInfo: "Phone: (207) 624-8624" },
+            { state: "Maryland", title: "Licensed Massage Therapist (LMT); Registered Massage Practitioner (RMP)", licensing: "750 hrs (LMT) or 600 hrs (RMP)\n\nMBLEx or NCBTMB + state law exam", completionTime: "37.5 weeks\n(~9.4 months)", enrollment: "School entry requirements vary by school; Additional requirements: liability insurance.", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "Maryland Board of Massage Therapy Examiners", boardUrl: "https://health.maryland.gov/massage/Pages/home.aspx", otherInfo: "Phone: (410) 764-4738" },
+            { state: "Massachusetts", title: "Licensed Massage Therapist (LMT)", licensing: "650 hrs\n(incl. 300 Massage Theory and Technique hrs)\n\nMBLEx", completionTime: "32.5 weeks\n(~8.1 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "", boardName: "Massachusetts Board of Registration of Massage Therapy", boardUrl: "https://www.mass.gov/orgs/board-of-registration-of-massage-therapy", otherInfo: "https://www.mass.gov/how-to/apply-for-a-massage-therapy-license\nPhone: (617) 701-8630" },
+            { state: "Michigan", title: "Massage Therapist (MT)", licensing: "625 hrs\n\nMBLEx, NCETMB, or NCETM", completionTime: "31.2 weeks\n(~7.8 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 18 hrs / 3 yrs", boardName: "Michigan Board of Massage Therapy", boardUrl: "https://www.michigan.gov/lara/bureau-list/bpl/health/hp-lic-health-prof/massage", otherInfo: "Phone: (517) 241 - 0199" },
+            { state: "Minnesota", title: "", licensing: "Currently unregulated\n\nNo statewide exam requirement identified", completionTime: "A 2025/2026 bill\n(HF 362) in progress, but no state license is active yet", enrollment: "Currently unregulated; no statewide school-entry requirement identified.", notesRenewal: "Currently unregulated.\n\nNo statewide massage licensure identified in the source set; local rules may apply.", boardName: "Not regulated at state level", boardUrl: "", otherInfo: "" },
+            { state: "Mississippi", title: "Massage Therapist (MT)", licensing: "700 total hrs\n(incl. 100 supervised student-clinic hrs; at least 50 practical one-hour hands-on sessions)\n\nMississippi State Law Exam + Board Comprehensive Exam (MBLEx or NCBTMB)", completionTime: "30.0 weeks\n(~7.5 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 12 hrs / 1 yr", boardName: "Mississippi State Board of Massage Therapy", boardUrl: "https://www.msbmt.ms.gov/", otherInfo: "Phone: (601) 732-6038" },
+            { state: "Missouri", title: "Massage Therapist (MT)", licensing: "625 hrs\n\nMBLEx or NCETMB + state exam", completionTime: "31.2 weeks\n(~7.8 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 12 hrs / 2 yrs", boardName: "Missouri Board of Therapeutic Massage", boardUrl: "https://boards.mo.gov/userpages/Board.aspx?10", otherInfo: "Phone: (573) 522-6277" },
+            { state: "Montana", title: "Licensed Massage Therapist (LMT)", licensing: "500 hrs\n\nMBLEx or NCBTMB", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 12 hrs / 2 yrs", boardName: "Montana Board of Massage Therapy", boardUrl: "https://boards.bsd.dli.mt.gov/massage-therapy/", otherInfo: "Phone: (406) 444-6880" },
+            { state: "Nebraska", title: "Massage Therapist (MT)", licensing: "1000 hrs\n\nNCBTMB or MBLEx", completionTime: "50.0 weeks\n(~12.5 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 16 hrs / 2 yrs", boardName: "Nebraska Board of Massage Therapy", boardUrl: "https://dhhs.ne.gov/licensure/pages/massage-therapy.aspx", otherInfo: "Phone: (402) 471-2117" },
+            { state: "Nevada", title: "Licensed Massage Therapist (LMT)", licensing: "625 hrs\n\nMBLEx, NCETM, NCETMB, CESI, ITEC, ARCB, IIR, or NCBTMB-R", completionTime: "27.5 weeks\n(~6.9 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "Nevada State Board of Massage Therapy", boardUrl: "https://massagetherapy.nv.gov/", otherInfo: "Phone: (775) 687-9955" },
+            { state: "New Hampshire", title: "Licensed Massage Practitioner (LMP)", licensing: "750 hrs\n\nMBLEx", completionTime: "37.5 weeks\n(~9.4 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 12 hrs / 2 yrs", boardName: "NH Office of Professional Licensure", boardUrl: "https://www.oplc.nh.gov/massage-therapy", otherInfo: "Phone: (603) 271-2152" },
+            { state: "New Jersey", title: "Licensed Massage and Bodywork Therapist (LMBT); Licensed Massage Therapist (LMT)", licensing: "600 hrs\n\nMBLEx or NCBTMB", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 20 hrs / 2 yrs", boardName: "NJ Board of Massage and Bodywork Therapy", boardUrl: "https://www.njconsumeraffairs.gov/mbbt", otherInfo: "Phone: (973) 504-6520" },
+            { state: "New Mexico", title: "Licensed Massage Therapist (LMT)", licensing: "650 hrs\n\nNCBTMB or MBLEx + state law exam", completionTime: "32.5 weeks\n(~8.1 months)", enrollment: "School entry requirements vary by school; Additional requirements: CPR, minimum age 18.", notesRenewal: "Renewal: 16 hrs / 2 yrs", boardName: "New Mexico Massage Therapy Board", boardUrl: "https://www.rld.nm.gov/boards-and-commissions/individual-boards-and-commissions/massage-therapy/", otherInfo: "Phone: (505) 476-4622" },
+            { state: "New York", title: "Licensed Massage Therapist (LMT)", licensing: "1000 hrs\n(incl. 325 student-practice hrs; min. 150 direct hands-on hrs under supervision)\n\nState exam", completionTime: "50.0 weeks\n(~12.5 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 36 hrs / 3 yrs", boardName: "NY State Education Department \u2013 Office of the Professions", boardUrl: "https://www.op.nysed.gov/professions/massage-therapy", otherInfo: "Phone: (518) 474-3817 ext. 410" },
+            { state: "North Carolina", title: "Licensed Massage and Bodywork Therapist (LMBT)", licensing: "650 hrs\n\nMBLEx or NCBTMB", completionTime: "32.5 weeks\n(~8.1 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "North Carolina Board of Massage and Bodywork Therapy", boardUrl: "https://www.bmbt.org/", otherInfo: "Phone: (919) 546-0050" },
+            { state: "North Dakota", title: "Licensed Massage Therapist (LMT)", licensing: "750 hrs\n\nMBLEx or NCBTMB", completionTime: "37.5 weeks\n(~9.4 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "North Dakota Board of Massage Therapy", boardUrl: "https://www.ndbmt.org/", otherInfo: "Phone: (701) 712-8624" },
+            { state: "Northern Mariana Islands", title: "", licensing: "650 Hours\n\nNo exam requirement identified", completionTime: "No clear centralized massage credential found", enrollment: "Currently unregulated; no statewide school-entry requirement identified.", notesRenewal: "Contact CNMI Health Care Professions Licensing Board for verification policy\n\nRenewal: TBD", boardName: "CNMI Health Care Professions Licensing Board", boardUrl: "https://www.cnmilicensing.gov.mp/health-care-professions-licensing-board/", otherInfo: "" },
+            { state: "Ohio", title: "Massage Therapist (MT)", licensing: "600 hrs\n\nMBLEx", completionTime: "30.0 weeks\n(~7.5 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: none required", boardName: "State Medical Board of Ohio", boardUrl: "https://med.ohio.gov/", otherInfo: "Phone: (614) 466-3934" },
+            { state: "Oklahoma", title: "Massage Therapist (MT)", licensing: "500 hrs\n\nMBLEx or NCBTMB", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 10 hrs / 2 yrs", boardName: "Oklahoma State Board of Cosmetology & Barbering", boardUrl: "https://oklahoma.gov/cosmo.html", otherInfo: "Phone: (405) 521-2441" },
+            { state: "Oregon", title: "Licensed Massage Therapist (LMT)", licensing: "625 hrs\n(incl. 300 Massage Theory & Practical Application / Clinical Practice hrs)\n\nBoard-approved written national exam (MBLEx, NCBTMB, or CESI) + state law exam", completionTime: "31.2 weeks\n(~7.8 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 25 hrs / 2 yrs", boardName: "Oregon Board of Massage Therapists", boardUrl: "https://www.oregon.gov/obmt", otherInfo: "Phone: (503) 365-8657" },
+            { state: "Pennsylvania", title: "Massage Therapist (MT)", licensing: "600 hrs\n\nMBLEx", completionTime: "30.0 weeks\n(~7.5 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "Pennsylvania State Board of Massage Therapy", boardUrl: "https://www.dos.pa.gov/ProfessionalLicensing/BoardsCommissions/MassageTherapy", otherInfo: "Phone: (717) 783-7155" },
+            { state: "Puerto Rico", title: "Massage Therapist (MT)", licensing: "1000 hrs\n\nMBLEx", completionTime: "50.0 weeks\n(~12.5 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Verify pathway (provisional, permanent, reciprocity) on official page\n\nRenewal: 6 hrs / 3 yrs", boardName: "Puerto Rico Dept. of Health \u2013 Massage Therapy Board", boardUrl: "https://www.salud.pr.gov/CMS/487", otherInfo: "Phone: (787) 725-8538" },
+            { state: "Rhode Island", title: "Licensed Massage Therapist (LMT)", licensing: "800 hrs\n\nMBLEx preferred (the 2026 RI licensing page lists MBLEx; the current RI application packet still references NCBTMB or MBLEx)", completionTime: "40.0 weeks\n(~10.0 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "800-hr pathway still needs live official verification before final export.\n\nRenewal: 24 hrs / 2 yrs", boardName: "Rhode Island Department of Health \u2013 Massage Therapy", boardUrl: "https://health.ri.gov/licensing/massage-therapy", otherInfo: "Phone: (401) 222-5960" },
+            { state: "South Carolina", title: "Licensed Massage/Bodywork Therapist (LMBT)", licensing: "650 hrs\n\nMBLEx", completionTime: "32.5 weeks\n(~8.1 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 12 hrs / 2 yrs", boardName: "South Carolina Board of Massage/Bodywork Therapy", boardUrl: "https://llr.sc.gov/mas/", otherInfo: "Phone: (803) 896-4588" },
+            { state: "South Dakota", title: "Massage Therapist (MT)", licensing: "500 hrs\n\nMBLEx or NCBTMB + state law exam", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 8 hrs / 2 yrs", boardName: "South Dakota Board of Massage Therapy", boardUrl: "https://doh.sd.gov/boards/massage/", otherInfo: "Phone: (605) 858 - 1708" },
+            { state: "Tennessee", title: "Licensed Massage Therapist (LMT)", licensing: "650 hrs\n\nMBLEx or NCBTMB", completionTime: "25.0 weeks\n(~6.2 months) standard in source set; 32.5 weeks\n(~8.1 months) figure still needs live official verification before final export.", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "650-hr figure still needs live official verification before final export.\n\nRenewal: 24 hrs / 2 yrs", boardName: "Tennessee Board of Massage Licensure", boardUrl: "https://www.tn.gov/health/health-program-areas/health-professional-boards/ml-board.html", otherInfo: "Phone: (615) 253-2111" },
+            { state: "Texas", title: "Licensed Massage Therapist (LMT)", licensing: "500 hrs\n\nMBLEx or state exam; Texas requires a state law exam if using MBLEx", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "", boardName: "Texas Department of Licensing and Regulation", boardUrl: "https://www.tdlr.texas.gov/mas/", otherInfo: "https://www.tdlr.texas.gov\nPhone: (512) 463-6599" },
+            { state: "U.S. Virgin Islands", title: "Massage Therapist (MT)", licensing: "500 hrs\n\nMBLEx or NCBTMB certification", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "DLCA licenses massage therapists; DOH registration and health clearance letter are also required. Source page also notes annual health permit for massage businesses.\nRenewal: 15 hrs / 1 yr", boardName: "VI Dept. of Health \u2013 Office of Professional Licensure and Health Planning", boardUrl: "https://doh.vi.gov/office-of-professional-licensure-and-health-planning/", otherInfo: "Phone: (340)-773-1311 ext. 3047." },
+            { state: "Utah", title: "Massage Therapist (MT)", licensing: "600 education hrs or 1000 supervised apprenticeship hrs\n\nMBLEx", completionTime: "30.0 weeks\n(~7.5 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: none required", boardName: "Utah Division of Professional Licensing", boardUrl: "https://dopl.utah.gov/massage/", otherInfo: "Phone: (801) 530-6628" },
+            { state: "Vermont", title: "", licensing: "Currently, only registration and a fee are required with no minimal education; licensure with 650 hrs req is pending legislation as of 2026\n\nNo exam required", completionTime: "Not Available", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "No statewide massage licensure; Registrants are legally required to \"conspicuously display\" their registration (Per 26 V.S.A. \u00a7 5426)\n\nRenewal: none required", boardName: "Vermont Office of Professional Regulation", boardUrl: "https://sos.vermont.gov/massage-therapists-bodyworkers-and-touch-professionals/", otherInfo: "Phone: 802-828-1505" },
+            { state: "Virginia", title: "Massage Therapist (MT)", licensing: "500 hrs\n\nMBLEx", completionTime: "25.0 weeks\n(~6.2 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "Virginia Board of Nursing", boardUrl: "https://www.dhp.virginia.gov/nursing/", otherInfo: "Phone: (804) 367-4400" },
+            { state: "Washington", title: "Massage Therapist (MT)", licensing: "625 hrs\n\nNCBTMB or MBLEx + state law exam", completionTime: "31.2 weeks\n(~7.8 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "Washington State Department of Health", boardUrl: "https://doh.wa.gov/licenses-permits-and-certificates/professions-new-renew-or-update/massage-therapist", otherInfo: "Phone: (360) 236-4700" },
+            { state: "West Virginia", title: "Massage Therapist (MT)", licensing: "625 hrs\n\nMBLEx or NCBTMB", completionTime: "31.2 weeks\n(~7.8 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "West Virginia Massage Therapy Licensure Board", boardUrl: "https://www.wv.gov/pages/agency.aspx?newid=296", otherInfo: "Phone: (304) 558-1060" },
+            { state: "Wisconsin", title: "Licensed Massage Therapist and Bodyworker (LMT)", licensing: "600 hrs\n\nMBLEx, NCBTMB, or NCCAOM + state law exam", completionTime: "30.0 weeks\n(~7.5 months)", enrollment: "Verify with individual school (commonly HS diploma/GED, age, and admissions screening).", notesRenewal: "Renewal: 24 hrs / 2 yrs", boardName: "Wisconsin Massage Therapy and Bodywork Therapy Board", boardUrl: "https://dsps.wi.gov/pages/BoardsCouncils/MassageTherapy/Default.aspx", otherInfo: "Phone: (608) 266-2112" },
+            { state: "Wyoming", title: "", licensing: "Currently unregulated\n\nNo statewide exam requirement identified", completionTime: "Currently unregulated", enrollment: "Currently unregulated; no statewide school-entry requirement identified.", notesRenewal: "Currently unregulated.\nNo statewide massage licensure identified in the source set; local rules may apply.\n\nRenewal: none required", boardName: "Wyoming Legislature \u2013 Massage Therapy Regulation", boardUrl: "https://wyoleg.gov/Legislation/2022/SF0091", otherInfo: "" }
+        ];
+        
+        // DOM elements
+        const searchInput = document.getElementById('stateSearch');
+        const clearBtn = document.getElementById('clearBtn');
+        const dropdown = document.getElementById('dropdown');
+        const tableContainer = document.getElementById('tableContainer');
+        const tableBody = document.getElementById('tableBody');
+        const noResults = document.getElementById('noResults');
+        
+        let selectedState = null;
+        
+        // Render selected state only
+        function renderState(state) {
+            if (!state) {
+                tableContainer.classList.remove('visible');
+                noResults.style.display = 'block';
+                return;
+            }
+            
+            noResults.style.display = 'none';
+            tableContainer.classList.add('visible');
+            
+            // Format state name with title
+            let stateName = state.state;
+            if (state.title) {
+                stateName += `<span class="state-title">${state.title}</span>`;
+            }
+            
+            // Format fields with line breaks
+            const licensingHtml = state.licensing.replace(/\n/g, '<br>');
+            const completionTimeHtml = state.completionTime.replace(/\n/g, '<br>');
+            const enrollmentHtml = state.enrollment.replace(/\n/g, '<br>');
+            const notesHtml = state.notesRenewal.replace(/\n/g, '<br>');
+            
+            // Board link
+            let boardLink;
+            if (state.boardUrl && state.boardUrl.startsWith('http')) {
+                boardLink = `<a href="${state.boardUrl}" target="_blank" rel="noopener noreferrer" class="board-link">${state.boardName} →</a>`;
+            } else if (state.boardName) {
+                boardLink = `<span style="color: #464646;">${state.boardName}</span>`;
+            } else {
+                boardLink = '<span class="no-board">Not Available</span>';
+            }
+            
+            // Other info (links and phones)
+            let otherInfoHtml = '';
+            if (state.otherInfo) {
+                const infoLines = state.otherInfo.split('\n').filter(line => line.trim());
+                const formattedLines = infoLines.map(line => {
+                    line = line.trim();
+                    if (line.startsWith('http')) {
+                        return `<a href="${line}" target="_blank" rel="noopener noreferrer" class="board-link">Requirements Page →</a>`;
+                    } else {
+                        return `<span style="color: #464646;">${line}</span>`;
+                    }
+                });
+                otherInfoHtml = formattedLines.join('<br>');
+            }
+            if (!otherInfoHtml) {
+                otherInfoHtml = '<span class="no-board">N/A</span>';
+            }
+            
+            tableBody.innerHTML = `
+                <tr>
+                    <td>${stateName}</td>
+                    <td>${licensingHtml}</td>
+                    <td>${completionTimeHtml}</td>
+                    <td>${enrollmentHtml}</td>
+                    <td>${notesHtml}</td>
+                    <td>${boardLink}</td>
+                    <td>${otherInfoHtml}</td>
+                </tr>
+            `;
+        }
+        
+        // Search and filter - no auto-selection
+        function filterStates(searchTerm) {
+            if (!searchTerm) {
+                dropdown.classList.remove('visible');
+                return;
+            }
+            
+            // Normalize search term for special cases
+            let normalizedTerm = searchTerm.toLowerCase();
+            
+            // Special handling: "us" should match "U.S. Virgin Islands"
+            if (normalizedTerm === 'us' || normalizedTerm === 'u.s.' || normalizedTerm === 'u.s') {
+                normalizedTerm = 'u.s. virgin islands';
+            }
+            
+            // Filter states by search term
+            const filtered = stateData.filter(state => 
+                state.state.toLowerCase().includes(normalizedTerm)
+            );
+            
+            // Also check for abbreviation match
+            const term = searchTerm.trim().toUpperCase();
+            if (term.length === 2 && stateAbbreviations[term]) {
+                const fullStateName = stateAbbreviations[term];
+                const abbrevState = stateData.find(s => s.state === fullStateName);
+                if (abbrevState && !filtered.includes(abbrevState)) {
+                    filtered.unshift(abbrevState); // Add to top of list
+                }
+            }
+            
+            // Update dropdown
+            dropdown.innerHTML = '';
+            if (filtered.length > 0) {
+                filtered.forEach(state => {
+                    const item = document.createElement('div');
+                    item.className = 'dropdown-item';
+                    item.textContent = state.state;
+                    item.onclick = () => selectState(state.state);
+                    dropdown.appendChild(item);
+                });
+                dropdown.classList.add('visible');
+            } else {
+                dropdown.classList.remove('visible');
+            }
+        }
+        
+        // Select state
+        function selectState(stateName) {
+            searchInput.value = stateName;
+            dropdown.classList.remove('visible');
+            selectedState = stateData.find(s => s.state === stateName);
+            renderState(selectedState);
+        }
+        
+        // Clear search
+        function clearSearch() {
+            searchInput.value = '';
+            clearBtn.classList.remove('visible');
+            selectedState = null;
+            renderState(null);
+            dropdown.classList.remove('visible');
+        }
+        
+        // Event listeners
+        searchInput.addEventListener('input', (e) => {
+            const value = e.target.value;
+            if (value) {
+                clearBtn.classList.add('visible');
+            } else {
+                clearBtn.classList.remove('visible');
+                renderState(null);
+            }
+            filterStates(value);
+        });
+        
+        searchInput.addEventListener('focus', () => {
+            if (searchInput.value) {
+                filterStates(searchInput.value);
+            }
+        });
+        
+        clearBtn.addEventListener('click', clearSearch);
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container')) {
+                dropdown.classList.remove('visible');
+            }
+        });
+        
+        // Initialize - show message
+        noResults.style.display = 'block';
+    </script>
+    
+    <script>
+        // Auto-resize iframe - sends height to parent window
+        (function() {
+            function sendHeight() {
+                var height = document.documentElement.scrollHeight;
+                window.parent.postMessage({
+                    type: 'ce-tool-resize',
+                    height: height
+                }, '*');
+            }
+            
+            // Send initial height
+            setTimeout(sendHeight, 100);
+            
+            // Send height when content changes
+            window.addEventListener('resize', sendHeight);
+            
+            // Watch for table visibility changes
+            var tableContainer = document.getElementById('tableContainer');
+            if (tableContainer) {
+                var observer = new MutationObserver(sendHeight);
+                observer.observe(tableContainer, {
+                    attributes: true,
+                    attributeFilter: ['class']
+                });
+            }
+        })();
+    </script>
+</body>
+</html>
